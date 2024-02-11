@@ -7,10 +7,20 @@ import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 
 // Components
 import { RequestAirdrop } from '../../components/RequestAirdrop';
+import { SendEncodedTransaction } from '../../components/SendEncodedTransaction';
 import pkg from '../../../package.json';
 
 // Store
 import useUserSOLBalanceStore from '../../stores/useUserSOLBalanceStore';
+
+function bytesToString(bytes: Uint8Array) {
+  return String.fromCharCode.apply(null, bytes);
+}
+
+
+// class EncodedTransaction {
+//   base64encoded: string;
+// }
 
 export const HomeView: FC = ({ }) => {
   const wallet = useWallet();
@@ -32,6 +42,7 @@ export const HomeView: FC = ({ }) => {
       <div className="md:hero-content flex flex-col">
         <div className='mt-6'>
         <div className='text-sm font-normal align-bottom text-right text-slate-600 mt-4'>v{pkg.version}</div>
+        <SendEncodedTransaction />
         <h1 className="text-center text-5xl md:pl-12 font-bold text-transparent bg-clip-text bg-gradient-to-br from-indigo-500 to-fuchsia-500 mb-4">
           Solana Next
         </h1>
@@ -51,16 +62,16 @@ export const HomeView: FC = ({ }) => {
         <div className="flex flex-col mt-2">
           <RequestAirdrop />
           <h4 className="md:w-full text-2xl text-slate-300 my-2">
-          {wallet &&
-          <div className="flex flex-row justify-center">
-            <div>
-              {(balance || 0).toLocaleString()}
+            {wallet &&
+              <div className="flex flex-row justify-center">
+                <div>
+                  {(balance || 0).toLocaleString()}
+                </div>
+                <div className='text-slate-600 ml-2'>
+                  SOL
+                </div>
               </div>
-              <div className='text-slate-600 ml-2'>
-                SOL
-              </div>
-          </div>
-          }
+            }
           </h4>
         </div>
       </div>
